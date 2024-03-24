@@ -8,7 +8,7 @@
 #include <glad/glad.h>
 #include <glfw/glfw3.h>
 
-#define CLASS_PTR(KlassName) \
+#define CLASS_PTR(klassName) \
 class klassName; \
 using klassName ## UPtr = std::unique_ptr<klassName>; \
 using klassName ## Ptr = std::shared_ptr<klassName>; \

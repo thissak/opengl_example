@@ -2,13 +2,13 @@
 #include <fstream>
 #include <sstream>
 
-std::optional<std::string> LoadingTextFile(const std::string& filename){
+std::optional<std::string> LoadTextFile(const std::string& filename) {
     std::ifstream fin(filename);
-    if (!fin.is_open()){
+    if (!fin.is_open()) {
         SPDLOG_ERROR("failed to open file: {}", filename);
         return {};
     }
-    std:stringstream text;
+    std::stringstream text;
     text << fin.rdbuf();
     return text.str();
 }
