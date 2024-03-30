@@ -1,6 +1,4 @@
-﻿#include "common.h"
-#include "shader.h"
-
+﻿#include "context.h"
 #include <spdlog/spdlog.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -61,24 +59,25 @@ int main(int arc, const char** argv){
     const char* glVersion = reinterpret_cast<const char*>(glGetString(GL_VERSION));
     SPDLOG_INFO("OpenGL context version: {}", glVersion);
 
-    auto vertexShader = Shader::CreateFromFile("./shader/simple.vs", GL_VERTEX_SHADER);
-    auto fragmentShader = Shader::CreateFromFile("./shader/simple.fs", GL_FRAGMENT_SHADER);
-    SPDLOG_INFO("vertex shader id : {}", vertexShader->Get());
-    SPDLOG_INFO("fragment shader id : {}", fragmentShader->Get());
-
+    auto context = Context::Create();
+    if(!context){
+        SPDLOG_ERROR("fail to create context");
+        glfwTerminate();
+        return -1;
+    }
 
     OnFramebufferSizeChange(window, WINDOW_WIDTH, WINDOW_HEIGHT);
     glfwSetFramebufferSizeCallback(window, OnFramebufferSizeChange);
     glfwSetKeyCallback(window, OnKeyEvent);
-    glClearColor(0.0f, 0.1f, 0.2f, 0.0f);
 
     // glfw 루프실행, 윈도우 CLOSE 버튼을 누르면 정상 종료
     SPDLOG_INFO("Start main loop");
     while (!glfwWindowShouldClose(window)){
         glfwPollEvents();
-        glClear(GL_COLOR_BUFFER_BIT);
+        context->Render();
         glfwSwapBuffers(window);
     }
+    context.reset();
 
     glfwTerminate();
     return 0;
