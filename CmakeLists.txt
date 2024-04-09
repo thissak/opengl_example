@@ -12,6 +12,7 @@ project(${PROJECT_NAME})
 find_package(glad CONFIG REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
+find_package(Stb REQUIRED)
 
 add_executable(${PROJECT_NAME} 
     src/main.cpp
@@ -21,6 +22,7 @@ add_executable(${PROJECT_NAME}
     src/context.cpp src/context.h
     src/buffer.cpp src/buffer.h
     src/vertex_layout.cpp src/vertex_layout.h
+    src/image.cpp src/image.h
     )
 
 # include(Dependency.cmake)
@@ -28,12 +30,13 @@ add_executable(${PROJECT_NAME}
 # 우리 프로젝트에 include / lib 관련 옵션 추가
 # target_include_directories(${PROJECT_NAME} PUBLIC ${DEP_INCLUDE_DIR})
 # target_link_directories(${PROJECT_NAME} PUBLIC ${DEP_LIB_DIR})
-target_link_libraries(${PROJECT_NAME} PUBLIC 
-    ${DEP_LIBS}
+target_link_libraries(${PROJECT_NAME} PRIVATE 
     glad::glad
     glfw
     spdlog::spdlog
 )
+
+target_include_directories(${PROJECT_NAME} PRIVATE ${Stb_INCLUDE_DIR})
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC
     WINDOW_NAME="${WINDOW_NAME}"
