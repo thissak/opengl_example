@@ -8,6 +8,11 @@ set(WINDOW_WIDTH 960)
 set(WINDOW_HEIGHT 540)
 
 project(${PROJECT_NAME})
+
+find_package(glad CONFIG REQUIRED)
+find_package(glfw3 CONFIG REQUIRED)
+find_package(spdlog CONFIG REQUIRED)
+
 add_executable(${PROJECT_NAME} 
     src/main.cpp
     src/common.cpp src/common.h
@@ -18,12 +23,17 @@ add_executable(${PROJECT_NAME}
     src/vertex_layout.cpp src/vertex_layout.h
     )
 
-include(Dependency.cmake)
+# include(Dependency.cmake)
 
 # 우리 프로젝트에 include / lib 관련 옵션 추가
-target_include_directories(${PROJECT_NAME} PUBLIC ${DEP_INCLUDE_DIR})
-target_link_directories(${PROJECT_NAME} PUBLIC ${DEP_LIB_DIR})
-target_link_libraries(${PROJECT_NAME} PUBLIC ${DEP_LIBS})
+# target_include_directories(${PROJECT_NAME} PUBLIC ${DEP_INCLUDE_DIR})
+# target_link_directories(${PROJECT_NAME} PUBLIC ${DEP_LIB_DIR})
+target_link_libraries(${PROJECT_NAME} PUBLIC 
+    ${DEP_LIBS}
+    glad::glad
+    glfw
+    spdlog::spdlog
+)
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC
     WINDOW_NAME="${WINDOW_NAME}"
@@ -32,4 +42,4 @@ target_compile_definitions(${PROJECT_NAME} PUBLIC
     )
 
 # Dependency들이 먼저 build 될 수 있게 관계 설정
-add_dependencies(${PROJECT_NAME} ${DEP_LIST})
+# add_dependencies(${PROJECT_NAME} ${DEP_LIST})
