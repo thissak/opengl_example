@@ -5,6 +5,7 @@
 #include "shader.h"
 #include "program.h"
 #include "buffer.h"
+#include "texture.h"
 #include "vertex_layout.h"
 
 // ... context 클래스 선언
@@ -21,6 +22,8 @@ private:
      VertexLayoutUPtr m_vertexLayout;
      BufferUPtr m_vertexBuffer;
      BufferUPtr m_indexBuffer;
+     TextureUPtr m_texture;
+     TextureUPtr m_texture2;
 };
 
 
